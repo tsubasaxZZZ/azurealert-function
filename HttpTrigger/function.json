@@ -1,0 +1,26 @@
+{
+    "bindings": [
+        {
+            "authLevel": "function",
+            "type": "httpTrigger",
+            "direction": "in",
+            "name": "req",
+            "methods": [
+                "get",
+                "post"
+            ]
+        },
+        {
+            "type": "http",
+            "direction": "out",
+            "name": "res"
+        },
+        {
+            "type": "sendGrid",
+            "direction": "out",
+            "name": "sendgrid",
+            "apiKey": "SENDGRID_APIKEY"
+        }
+    ],
+    "scriptFile": "../dist/HttpTrigger/index.js"
+}
