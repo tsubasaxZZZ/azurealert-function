@@ -9,6 +9,9 @@ export abstract class Alert {
             case "Platform":
                 obj = new PlatformAlert(alertBody, monitoringService);
                 break;
+            default: // ToDo: とりあえず共通の内容としておく
+                obj = new PlatformAlert(alertBody, monitoringService);
+                break;
         }
         return obj;
 
