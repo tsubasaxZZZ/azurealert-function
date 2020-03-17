@@ -1,18 +1,21 @@
 {
-  "name": "alert-functions",
-  "version": "1.0.0",
-  "description": "",
-  "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
-    "prestart": "npm run build",
-    "start": "func start",
-    "test": "echo \"No tests yet...\""
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "@azure/functions": "^1.2.0",
-    "@types/node": "^13.7.7",
-    "typescript": "^3.3.3"
-  }
+    "name": "alert-functions",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "build": "tsc",
+        "watch": "tsc -w",
+        "prestart": "npm run build",
+        "start": "func start",
+        "test": "jest"
+    },
+    "devDependencies": {
+        "@azure/functions": "^1.2.0",
+        "@types/jest": "^25.1.4",
+        "@types/node": "^13.7.7",
+        "jest": "^25.1.0",
+        "ts-jest": "^25.2.1",
+        "typescript": "^3.3.3"
+    },
+    "dependencies": {}
 }

@@ -1,4 +1,5 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions"
+import { Alert } from "./alert";
 import { env } from "process"
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
@@ -13,40 +14,28 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         body: responseMessage
     };
 
-    context.log(req.body);
+    context.log("Received alert request:" + JSON.stringify(req.body));
     const toObj = [];
     for (const t of env.MailTo.split(",")) {
         toObj.push({ "email": t })
     }
     context.log("Send to:" + JSON.stringify(toObj));
 
-    // アラートの中身
-    const alertContext = req.body.data.essentials.alertContext;
-
     // アラートの種類によってメッセージを構築する
-    const alertMessage = createAlertMessageByService(context, alertContext, req.body.data.essentials.monitoringService);
-
-    const messageValue = `アラート名: ${req.body.data.essentials.alertRule}
-アラート状態: ${req.body.data.essentials.monitorCondition}
-${alertMessage}`;
+    const alert = Alert.createAlert(req.body, req.body.data.essentials.monitoringService);
 
     const message = {
         "personalizations": [{ "to": toObj }],
-        from: { email: "tsunomur@microsoft.com" },
-        subject: req.body.data.essentials.alertRule,
+        from: { email: "azure-noreply@microsoft.com" },
+        subject: `${alert.monitorCondition}: ${alert.subject}`,
         content: [{
             type: 'text/plain',
-            value: messageValue
+            value: alert.createMessage()
         }]
     };
     context.bindings.sendgrid = message;
     context.done();
 
 };
-
-function createAlertMessageByService(context: Context, alertContext: string, monitoringService: string): string {
-    context.log(alertContext);
-    return ""
-}
 
 export default httpTrigger;
