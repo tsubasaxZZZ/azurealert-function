@@ -9,7 +9,10 @@ export abstract class Alert {
             case "Platform":
                 obj = new PlatformAlert(alertBody, monitoringService);
                 break;
-            default: // ToDo: とりあえず共通の内容としておく
+            case "ServiceHealth":
+                obj = new ServiceHealthAlert(alertBody, monitoringService);
+                break;
+            default: // ToDo: これ以外は共通の内容として Platform にしておく
                 obj = new PlatformAlert(alertBody, monitoringService);
                 break;
         }
@@ -47,6 +50,11 @@ export abstract class Alert {
     public get subject(): string {
         return this._alertBody.data.essentials.alertRule || "-";
     }
+
+    public get alertTargetIDs(): string[] {
+        return this._alertBody.data.essentials.alertTargetIDs || ["-"];
+    }
+
     public get resourceGroups(): string[] {
         const resourcegroups = [];
         for (const id of this._alertBody.data.essentials.alertTargetIDs) {
@@ -101,4 +109,67 @@ class PlatformAlert extends Alert {
 `;
         return message;
     }
+}
+
+class ServiceHealthAlert extends Alert {
+    constructor(public alertBody: string, public monitoringService: string) {
+        super();
+        this.alertBody = alertBody;
+        this.monitoringService = monitoringService;
+    }
+
+    public get incidentType(): string {
+        return this._alertBody.data.alertContext.properties.incidentType || "-";
+    }
+
+    public get trackingID(): string {
+        return this._alertBody.data.alertContext.properties.trackingId || "-";
+    }
+
+    public get defaultLanguageTitle(): string {
+        return this._alertBody.data.alertContext.properties.defaultLanguageTitle || "-";
+    }
+
+    public get impactedServices(): any {
+        return JSON.parse(this._alertBody.data.alertContext.properties.impactedServices);
+    }
+
+
+    public get defaultLanguageContent(): string {
+        return this._alertBody.data.alertContext.properties.defaultLanguageContent || "-";
+    }
+
+    public createMessage(): string {
+        // ↓の形式でくる JSON を <サービス名2>[<リージョン1>/<リージョン2>/...], <サービス名2>[<リージョン1>/<リージョン2>/...] の形式に整形
+        // "impactedServices": "[{\"ImpactedRegions\":[{\"RegionName\":\"East US\"},{\"RegionName\":\"South Central US\"},{\"RegionName\":\"West US\"},{\"RegionName\":\"West US 2\"}],\"ServiceName\":\"Application Insights\"}]"
+        const formatImpactedService = (services: any): string => {
+            const result = [];
+            for (const s of services) {
+                let str = `${s.ServiceName}[`;
+                const region = [];
+                for (const r of s.ImpactedRegions) {
+                    region.push(r.RegionName);
+                }
+                str += region.join("/") + ']';
+                result.push(str);
+            }
+            return result.join(",");
+        };
+        const message: string = `アラート名: ${this.subject}
+アラート状態: ${this.monitorCondition}
+アラート概要: ${this.defaultLanguageTitle}
+アラート重要度: ${this.severity}
+アラート発生日時: ${this.firedDateTime}
+アラート解決日時: ${this.resolvedDateTime}
+アラート種別: ${this.monitoringService}
+対象サブスクリプション: ${this.alertTargetIDs.join(",")}
+アラートタイプ: ${this.incidentType}
+トラッキング ID: ${this.trackingID}
+影響サービス[リージョン]: ${formatImpactedService(this.impactedServices)}
+
+${this.defaultLanguageContent}
+`;
+        return message;
+    }
+
 }

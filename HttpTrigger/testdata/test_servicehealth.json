@@ -1,0 +1,58 @@
+{
+    "schemaId": "azureMonitorCommonAlertSchema",
+    "data": {
+        "essentials": {
+            "alertId": "/subscriptions/<subscription ID>/providers/Microsoft.AlertsManagement/alerts/b9569717-bc32-442f-add5-83a997729330",
+            "alertRule": "サービス正常性アラート",
+            "severity": "Sev3",
+            "monitorCondition": "Fired",
+            "monitoringService": "ServiceHealth",
+            "alertTargetIDs": [
+                "/subscriptions/18d80846-9dcd-4b75-99a3-4f6746769768"
+            ],
+            "originAlertId": "3f2d4487-b0fc-4125-8bd5-7ad17384221e_PipeLineAlertRG_microsoft.insights_metricAlerts_WCUS-R2-Gen2_-117781227",
+            "firedDateTime": "2019-03-22T13:58:24.3713213Z",
+            "resolvedDateTime": "2019-03-22T14:03:16.2246313Z",
+            "description": "アラートの説明です",
+            "essentialsVersion": "1.0",
+            "alertContextVersion": "1.0"
+        },
+        "alertContext": {
+            "authorization": null,
+            "channels": 1,
+            "claims": null,
+            "caller": null,
+            "correlationId": "f3cf2430-1ee3-4158-8e35-7a1d615acfc7",
+            "eventSource": 2,
+            "eventTimestamp": "2019-06-24T11:31:19.0312699+00:00",
+            "httpRequest": null,
+            "eventDataId": "3af231a3-fdc2-472c-95a8-bcbb46dda6ab",
+            "level": 3,
+            "operationName": "Microsoft.ServiceHealth/maintenance/action",
+            "operationId": "6bd2947b-b215-4366-b237-7cac47340e38",
+            "properties": {
+                "title": "Application Insights - East US - Mitigated",
+                "service": "Application Insights",
+                "region": "East US",
+                "communication": "Summary of impact: Between 17:46 and 23:10 UTC on 17 Mar 2020, you were identified as a customer using Application Insights in East US who may have experienced intermittent data latency, data gaps and incorrect alert activations for resources hosted in this region. More information can be found on https://aka.ms/appinsightsblog <https://aka.ms/appinsightsblog> .<br><br>Preliminary root cause: Engineers determined that instances of a backend service that Application Insights depends on became unhealthy, preventing these requests from completing.<br><br>Mitigation: Engineers determined that the backend service self-healed, allowing Application Insights to recover.<br><br>Next steps: Engineers will continue to investigate to establish the full root cause and prevent future occurrences. Stay informed about Azure service issues by creating custom service health alerts: https://aka.ms/ash-videos <https://aka.ms/ash-videos> for video tutorials and https://aka.ms/ash-alerts <https://aka.ms/ash-alerts> for how-to documentation.",
+                "incidentType": "Incident",
+                "trackingId": "9VR0-DS8",
+                "impactStartTime": "2019-06-26T04:00:00Z",
+                "impactMitigationTime": "2019-06-26T12:00:00Z",
+                "impactedServices": "[{\"ImpactedRegions\":[{\"RegionName\":\"East US\"},{\"RegionName\":\"South Central US\"},{\"RegionName\":\"West US\"},{\"RegionName\":\"West US 2\"}],\"ServiceName\":\"Application Insights\"}]",
+                "impactedServicesTableRows": "<tr>\r\n<td align='center' style='padding: 5px 10px; border-right:1px solid black; border-bottom:1px solid black'>SQL Data Warehouse</td>\r\n<td align='center' style='padding: 5px 10px; border-bottom:1px solid black'>East US<br></td>\r\n</tr>\r\n",
+                "defaultLanguageTitle": "Application Insights - East US - Mitigated",
+                "defaultLanguageContent": "Summary of impact: Between 17:46 and 23:10 UTC on 17 Mar 2020, you were identified as a customer using Application Insights in East US who may have experienced intermittent data latency, data gaps and incorrect alert activations for resources hosted in this region. More information can be found on https://aka.ms/appinsightsblog <https://aka.ms/appinsightsblog> .<br><br>Preliminary root cause: Engineers determined that instances of a backend service that Application Insights depends on became unhealthy, preventing these requests from completing.<br><br>Mitigation: Engineers determined that the backend service self-healed, allowing Application Insights to recover.<br><br>Next steps: Engineers will continue to investigate to establish the full root cause and prevent future occurrences. Stay informed about Azure service issues by creating custom service health alerts: https://aka.ms/ash-videos <https://aka.ms/ash-videos> for video tutorials and https://aka.ms/ash-alerts <https://aka.ms/ash-alerts> for how-to documentation.",
+                "stage": "Resolved",
+                "communicationId": "11000044872115",
+                "maintenanceId": "c3bdeee4-3652-4482-a93d-46495e2cea5c",
+                "isHIR": "false",
+                "version": "0.1.1"
+            },
+            "status": "Resolved",
+            "subStatus": null,
+            "submissionTimestamp": "2019-06-24T11:31:31.7147357+00:00",
+            "ResourceType": null
+        }
+    }
+}

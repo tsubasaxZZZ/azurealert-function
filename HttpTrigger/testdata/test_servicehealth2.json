@@ -1,0 +1,56 @@
+{
+    "schemaId": "azureMonitorCommonAlertSchema",
+    "data": {
+        "essentials": {
+            "alertId": "/subscriptions/33325c7f-089d-493b-9ad9-1400a8da5394/providers/Microsoft.AlertsManagement/alerts/0dbbde02e936bb89dee2601b307384efdc7e4c6ea522f9e21e58439cfbb3c1d8",
+            "alertRule": "正常性アラート",
+            "severity": "Sev4",
+            "signalType": "Activity Log",
+            "monitorCondition": "Fired",
+            "monitoringService": "ServiceHealth",
+            "alertTargetIDs": [
+                "/subscriptions/33325c7f-089d-493b-9ad9-1400a8da5394"
+            ],
+            "originAlertId": "e3100187-c299-ffc3-a37a-15947f5260a1",
+            "firedDateTime": "2020-03-18T12:56:15.9264354",
+            "description": "Active: Log Analytics - Applying Mitigation",
+            "essentialsVersion": "1.0",
+            "alertContextVersion": "1.0"
+        },
+        "alertContext": {
+            "authorization": null,
+            "channels": 1,
+            "claims": null,
+            "caller": null,
+            "correlationId": "a86190fb-203a-484e-bdcf-6fd5edd3701c",
+            "eventSource": 2,
+            "eventTimestamp": "2020-03-18T12:56:06.5302518+00:00",
+            "httpRequest": null,
+            "eventDataId": "e3100187-c299-ffc3-a37a-15947f5260a1",
+            "level": 4,
+            "operationName": "Microsoft.ServiceHealth/incident/action",
+            "operationId": "a86190fb-203a-484e-bdcf-6fd5edd3701c",
+            "properties": {
+                "title": "Log Analytics - Applying Mitigation",
+                "service": "Log Analytics",
+                "region": "Australia Central",
+                "communication": "Starting at 09:51 UTC on 18 Mar 2020 you\nhave been identified as a customer using Log Analytics who may experience query failures and ingestion latency. Engineers are applying mitigation and some\ncustomers may be seeing signs of recovery at this time. <p></p>The\nnext update will be provided in 60 minutes, or as events warrant.<p></p>",
+                "incidentType": "Incident",
+                "trackingId": "8V_4-FC0",
+                "impactStartTime": "2020-03-18T09:51:00Z",
+                "impactedServices": "[{\"ImpactedRegions\":[{\"RegionName\":\"Australia Central\"},{\"RegionName\":\"Australia East\"},{\"RegionName\":\"Australia Southeast\"},{\"RegionName\":\"Canada Central\"},{\"RegionName\":\"Central India\"},{\"RegionName\":\"East Asia\"},{\"RegionName\":\"East US\"},{\"RegionName\":\"East US 2\"},{\"RegionName\":\"France Central\"},{\"RegionName\":\"Japan East\"},{\"RegionName\":\"Korea Central\"},{\"RegionName\":\"North Central US\"},{\"RegionName\":\"North Europe\"},{\"RegionName\":\"South Central US\"},{\"RegionName\":\"UK South\"},{\"RegionName\":\"West Central US\"},{\"RegionName\":\"West US\"},{\"RegionName\":\"West US 2\"}],\"ServiceName\":\"Log Analytics\"}]",
+                "impactedServicesTableRows": "<tr>\r\n<td align='center' style='padding: 5px 10px; border-right:1px solid black; border-bottom:1px solid black'>Log Analytics</td>\r\n<td align='center' style='padding: 5px 10px; border-bottom:1px solid black'>Australia Central<br>Australia East<br>Australia Southeast<br>Canada Central<br>Central India<br>East Asia<br>East US<br>East US 2<br>France Central<br>Japan East<br>Korea Central<br>North Central US<br>North Europe<br>South Central US<br>UK South<br>West Central US<br>West US<br>West US 2<br></td>\r\n</tr>\r\n",
+                "defaultLanguageTitle": "Log Analytics - Applying Mitigation",
+                "defaultLanguageContent": "Starting at 09:51 UTC on 18 Mar 2020 you\nhave been identified as a customer using Log Analytics who may experience query failures and ingestion latency. Engineers are applying mitigation and some\ncustomers may be seeing signs of recovery at this time. <p></p>The\nnext update will be provided in 60 minutes, or as events warrant.<p></p>",
+                "stage": "Active",
+                "communicationId": "11000044880290",
+                "isHIR": "false",
+                "version": "0.1.1"
+            },
+            "status": "Active",
+            "subStatus": null,
+            "submissionTimestamp": "2020-03-18T12:56:15.9264354+00:00",
+            "ResourceType": null
+        }
+    }
+}
