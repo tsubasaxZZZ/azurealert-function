@@ -1,3 +1,4 @@
+import { TranslateAlert } from "./translator"
 export abstract class Alert {
     _alertBody: any;
     _monitoringService: string;
@@ -89,7 +90,6 @@ export abstract class Alert {
             }
             d = this.formatAndLocalizeDate(fd);
         }
-        console.log(d);
         return d;
     }
     public get resolvedDateTime(): string {
@@ -99,7 +99,7 @@ export abstract class Alert {
         }
         return d;
     }
-    public abstract createMessage(): string;
+    public async abstract createMessage(): Promise<string>;
 
     /**
      * 日付をフォーマットする
@@ -128,7 +128,7 @@ class PlatformAlert extends Alert {
         this.monitoringService = monitoringService;
     }
 
-    public createMessage(): string {
+    public async createMessage(): Promise<string> {
         const message: string = `アラート名: ${this.subject}
 アラート状態: ${this.monitorCondition}
 アラート説明: ${this.description}
@@ -177,7 +177,7 @@ class ServiceHealthAlert extends Alert {
         return this._alertBody.data.alertContext.properties.defaultLanguageContent || "-";
     }
 
-    public createMessage(): string {
+    public async createMessage(): Promise<string> {
         // ↓の形式でくる JSON を <サービス名2>[<リージョン1>/<リージョン2>/...], <サービス名2>[<リージョン1>/<リージョン2>/...] の形式に整形
         // "impactedServices": "[{\"ImpactedRegions\":[{\"RegionName\":\"East US\"},{\"RegionName\":\"South Central US\"},{\"RegionName\":\"West US\"},{\"RegionName\":\"West US 2\"}],\"ServiceName\":\"Application Insights\"}]"
         const formatImpactedService = (services: any): string => {
@@ -193,7 +193,8 @@ class ServiceHealthAlert extends Alert {
             }
             return result.join(",");
         };
-        const message: string = `アラート名: ${this.subject}
+
+        const message = `アラート名: ${this.subject}
 アラート概要: ${this.defaultLanguageTitle}
 アラート重要度: ${this.severity}
 アラート発生日時: ${this.firedDateTime}
@@ -204,7 +205,7 @@ class ServiceHealthAlert extends Alert {
 トラッキング ID: ${this.trackingID}
 影響サービス[リージョン]: ${formatImpactedService(this.impactedServices)}
 
-${this.defaultLanguageContent}
+${await new TranslateAlert().translateEn2Ja(this.defaultLanguageContent)}
 `;
         return message;
     }

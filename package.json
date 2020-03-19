@@ -13,9 +13,12 @@
         "@azure/functions": "^1.2.0",
         "@types/jest": "^25.1.4",
         "@types/node": "^13.7.7",
+        "@types/uuid": "^7.0.2",
         "jest": "^25.1.0",
         "ts-jest": "^25.2.1",
         "typescript": "^3.3.3"
     },
-    "dependencies": {}
+    "dependencies": {
+        "axios": "^0.19.2"
+    }
 }

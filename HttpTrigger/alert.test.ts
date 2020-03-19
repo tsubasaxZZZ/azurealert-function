@@ -12,7 +12,7 @@ test("Alertcreate-Platform-Resolved", async () => {
     expect(alert.resources).toEqual(expect.arrayContaining(["wcus-r2-gen2"]));
     expect(alert.resourceGroups).toEqual(expect.arrayContaining(["pipelinealertrg"]));
     expect(alert.resourceTypes).toEqual(expect.arrayContaining(["microsoft.compute/virtualmachines"]));
-    const message = alert.createMessage();
+    const message = await alert.createMessage();
     const testmessage: string = `アラート名: ${alert.subject}
 アラート状態: 解決
 アラート説明: アラートの説明です
@@ -37,9 +37,8 @@ test("Alertcreate-ServiceHealth-Fired", async () => {
     expect(alert.firedDateTime).toBe("2019-03-22 22:58:24");
     expect(alert.resolvedDateTime).toBe("2019-03-22 23:03:16");
     expect(alert.alertTargetIDs).toEqual(expect.arrayContaining(["/subscriptions/18d80846-9dcd-4b75-99a3-4f6746769768"]));
-    const message = alert.createMessage();
+    const message = await alert.createMessage();
     const testmessage: string = `アラート名: ${alert.subject}
-アラート状態: 障害発生
 アラート概要: Application Insights - East US - Mitigated
 アラート重要度: Sev3
 アラート発生日時: 2019-03-22 22:58:24
@@ -50,7 +49,7 @@ test("Alertcreate-ServiceHealth-Fired", async () => {
 トラッキング ID: 9VR0-DS8
 影響サービス[リージョン]: Application Insights[East US/South Central US/West US/West US 2]
 
-Summary of impact: Between 17:46 and 23:10 UTC on 17 Mar 2020, you were identified as a customer using Application Insights in East US who may have experienced intermittent data latency, data gaps and incorrect alert activations for resources hosted in this region. More information can be found on https://aka.ms/appinsightsblog <https://aka.ms/appinsightsblog> .Preliminary root cause: Engineers determined that instances of a backend service that Application Insights depends on became unhealthy, preventing these requests from completing.Mitigation: Engineers determined that the backend service self-healed, allowing Application Insights to recover.Next steps: Engineers will continue to investigate to establish the full root cause and prevent future occurrences. Stay informed about Azure service issues by creating custom service health alerts: https://aka.ms/ash-videos <https://aka.ms/ash-videos> for video tutorials and https://aka.ms/ash-alerts <https://aka.ms/ash-alerts> for how-to documentation.
+影響の概要: 2020 年 3 月 17 日の 17:46 から 23:10 UTC の間に、この地域でホストされているリソースの断続的なデータ待ち時間、データ ギャップ、および不適切なアラートのアクティブ化が発生した可能性がある米国東部のアプリケーション インサイトを使用して、顧客として識別されました。詳細については、 https://aka.ms/appinsightsblog を参照してください。 予備的な根本原因: エンジニアは、Application Insights が依存するバックエンド サービスのインスタンスが異常になり、これらの要求が完了するのを防いでいると判断しました。 軽減策: バックエンド サービスが自己修復されたと判断し、アプリケーションインサイトを回復できるようにしました。 次のステップ: エンジニアは引き続き調査を行い、根本原因を完全に確立し、今後の発生を防ぎます。カスタム サービス正常性アラート (ビデオ チュートリアルのhttps://aka.ms/ash-videos、ハウツー ドキュメントのhttps://aka.ms/ash-alerts) を作成して、Azure サービスの問題に関する情報を常に把握します。
 `;
     expect(message).toBe(testmessage);
 });
@@ -65,7 +64,7 @@ test("Alertcreate-ServiceHealth-Fired2", async () => {
     expect(alert.firedDateTime).toBe("2020-03-18 21:56:15");
     expect(alert.resolvedDateTime).toBe("-");
     expect(alert.alertTargetIDs).toEqual(expect.arrayContaining(["/subscriptions/33325c7f-089d-493b-9ad9-1400a8da5394"]));
-    const message = alert.createMessage();
+    const message = await alert.createMessage();
     const testmessage: string = `アラート名: ${alert.subject}
 アラート概要: Log Analytics - Applying Mitigation
 アラート重要度: Sev4
@@ -77,7 +76,7 @@ test("Alertcreate-ServiceHealth-Fired2", async () => {
 トラッキング ID: 8V_4-FC0
 影響サービス[リージョン]: Log Analytics[Australia Central/Australia East/Australia Southeast/Canada Central/Central India/East Asia/East US/East US 2/France Central/Japan East/Korea Central/North Central US/North Europe/South Central US/UK South/West Central US/West US/West US 2]
 
-Starting at 09:51 UTC on 18 Mar 2020 you\nhave been identified as a customer using Log Analytics who may experience query failures and ingestion latency. Engineers are applying mitigation and some\ncustomers may be seeing signs of recovery at this time. <p></p>The\nnext update will be provided in 60 minutes, or as events warrant.<p></p>
+2020 年 3 月 18 日の 09:51 UTC 以降、Log Analytics を使用して、クエリの失敗やインジェスの待機時間が発生する可能性がある顧客として識別されました。エンジニアは緩和策を適用しており、一部のお客様は現時点で回復の兆しを見ている可能性があります。 次回の更新プログラムは、60 分後に提供されるか、またはイベントの保証として提供されます。
 `;
     expect(message).toBe(testmessage);
 });

@@ -30,7 +30,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         subject: `${alert.monitorCondition}: ${alert.subject}`,
         content: [{
             type: 'text/plain',
-            value: alert.createMessage()
+            value: await alert.createMessage()
         }]
     };
     context.bindings.sendgrid = message;
