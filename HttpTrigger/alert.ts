@@ -83,13 +83,14 @@ export abstract class Alert {
     public get firedDateTime(): string {
         let d = "-";
         let fd = this._alertBody.data.essentials.firedDateTime;
+        console.log(fd);
         if (fd) {
-            // ISO 8601 に準拠していないことがあるので対処
             if (!(/Z$/).test(fd)) {
                 fd += "Z";
             }
             d = this.formatAndLocalizeDate(fd);
         }
+        console.log(d);
         return d;
     }
     public get resolvedDateTime(): string {
