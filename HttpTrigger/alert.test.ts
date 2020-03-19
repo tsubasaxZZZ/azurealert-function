@@ -7,8 +7,8 @@ test("Alertcreate-Platform-Resolved", async () => {
     expect(alert.monitorCondition).toBe("解決");
     expect(alert.description).toBe(sampleBody.data.essentials.description);
     expect(alert.severity).toBe(sampleBody.data.essentials.severity);
-    expect(alert.firedDateTime).toBe(sampleBody.data.essentials.firedDateTime);
-    expect(alert.resolvedDateTime).toBe(sampleBody.data.essentials.resolvedDateTime);
+    expect(alert.firedDateTime).toBe("2019-03-22 22:58:24");
+    expect(alert.resolvedDateTime).toBe("2019-03-22 23:03:16");
     expect(alert.resources).toEqual(expect.arrayContaining(["wcus-r2-gen2"]));
     expect(alert.resourceGroups).toEqual(expect.arrayContaining(["pipelinealertrg"]));
     expect(alert.resourceTypes).toEqual(expect.arrayContaining(["microsoft.compute/virtualmachines"]));
@@ -17,8 +17,8 @@ test("Alertcreate-Platform-Resolved", async () => {
 アラート状態: 解決
 アラート説明: アラートの説明です
 アラート重要度: Sev3
-アラート発生日時: 2019-03-22T13:58:24.3713213Z
-アラート解決日時: 2019-03-22T14:03:16.2246313Z
+アラート発生日時: 2019-03-22 22:58:24
+アラート解決日時: 2019-03-22 23:03:16
 アラート種別: Platform
 リソース グループ: pipelinealertrg
 リソース タイプ: microsoft.compute/virtualmachines
@@ -31,19 +31,19 @@ test("Alertcreate-ServiceHealth-Fired", async () => {
     const sampleBody = JSON.parse(fs.readFileSync("./HttpTrigger/testdata/test_servicehealth.json").toString("utf8"))
     const alert = Alert.createAlert(sampleBody, sampleBody.data.essentials.monitoringService);
     expect(alert.subject).toBe(sampleBody.data.essentials.alertRule);
-    expect(alert.monitorCondition).toBe("障害発生");
+    expect(alert.monitorCondition).toBe("通知");
     expect(alert.description).toBe(sampleBody.data.essentials.description);
     expect(alert.severity).toBe(sampleBody.data.essentials.severity);
-    expect(alert.firedDateTime).toBe(sampleBody.data.essentials.firedDateTime);
-    expect(alert.resolvedDateTime).toBe(sampleBody.data.essentials.resolvedDateTime);
+    expect(alert.firedDateTime).toBe("2019-03-22 22:58:24");
+    expect(alert.resolvedDateTime).toBe("2019-03-22 23:03:16");
     expect(alert.alertTargetIDs).toEqual(expect.arrayContaining(["/subscriptions/18d80846-9dcd-4b75-99a3-4f6746769768"]));
     const message = alert.createMessage();
     const testmessage: string = `アラート名: ${alert.subject}
 アラート状態: 障害発生
 アラート概要: Application Insights - East US - Mitigated
 アラート重要度: Sev3
-アラート発生日時: 2019-03-22T13:58:24.3713213Z
-アラート解決日時: 2019-03-22T14:03:16.2246313Z
+アラート発生日時: 2019-03-22 22:58:24
+アラート解決日時: 2019-03-22 23:03:16
 アラート種別: ServiceHealth
 対象サブスクリプション: /subscriptions/18d80846-9dcd-4b75-99a3-4f6746769768
 アラートタイプ: Incident
@@ -59,18 +59,17 @@ test("Alertcreate-ServiceHealth-Fired2", async () => {
     const sampleBody = JSON.parse(fs.readFileSync("./HttpTrigger/testdata/test_servicehealth2.json").toString("utf8"))
     const alert = Alert.createAlert(sampleBody, sampleBody.data.essentials.monitoringService);
     expect(alert.subject).toBe(sampleBody.data.essentials.alertRule);
-    expect(alert.monitorCondition).toBe("障害発生");
+    expect(alert.monitorCondition).toBe("通知");
     expect(alert.description).toBe(sampleBody.data.essentials.description);
     expect(alert.severity).toBe(sampleBody.data.essentials.severity);
-    expect(alert.firedDateTime).toBe(sampleBody.data.essentials.firedDateTime);
+    expect(alert.firedDateTime).toBe("2020-03-18 21:56:15");
     expect(alert.resolvedDateTime).toBe("-");
     expect(alert.alertTargetIDs).toEqual(expect.arrayContaining(["/subscriptions/33325c7f-089d-493b-9ad9-1400a8da5394"]));
     const message = alert.createMessage();
     const testmessage: string = `アラート名: ${alert.subject}
-アラート状態: 障害発生
 アラート概要: Log Analytics - Applying Mitigation
 アラート重要度: Sev4
-アラート発生日時: 2020-03-18T12:56:15.9264354
+アラート発生日時: 2020-03-18 21:56:15
 アラート解決日時: -
 アラート種別: ServiceHealth
 対象サブスクリプション: /subscriptions/33325c7f-089d-493b-9ad9-1400a8da5394

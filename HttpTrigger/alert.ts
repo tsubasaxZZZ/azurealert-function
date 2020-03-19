@@ -79,13 +79,46 @@ export abstract class Alert {
     public get description(): string {
         return this._alertBody.data.essentials.description || "-";
     }
-    public get firedDateTime(): Date {
-        return this._alertBody.data.essentials.firedDateTime || "-";
+    public get firedDateTime(): string {
+        let d = "-";
+        let fd = this._alertBody.data.essentials.firedDateTime;
+        if (fd) {
+            // ISO 8601 に準拠していないことがあるので対処
+            if (!(/Z$/).test(fd)) {
+                fd += "Z";
+            }
+            d = this.formatAndLocalizeDate(fd);
+        }
+        console.log(d);
+        return d;
     }
-    public get resolvedDateTime(): Date {
-        return this._alertBody.data.essentials.resolvedDateTime || "-";
+    public get resolvedDateTime(): string {
+        let d = "-";
+        if (this._alertBody.data.essentials.resolvedDateTime) {
+            d = this.formatAndLocalizeDate(this._alertBody.data.essentials.resolvedDateTime);
+        }
+        return d;
     }
     public abstract createMessage(): string;
+
+    /**
+     * 日付をフォーマットする
+     * @param  {String}   dateString     日付
+     * @param  {String} [format] フォーマット
+     * @return {String}          フォーマット済み日付
+    */
+    private formatAndLocalizeDate(dateString: string, format: string = undefined): string {
+        // JST にする
+        const date = new Date(Date.parse(dateString) + 9);
+        if (!format) format = 'YYYY-MM-DD hh:mm:ss';
+        format = format.replace(/YYYY/g, date.getFullYear().toString());
+        format = format.replace(/MM/g, ('0' + (date.getMonth() + 1)).slice(-2));
+        format = format.replace(/DD/g, ('0' + date.getDate()).slice(-2));
+        format = format.replace(/hh/g, ('0' + date.getHours()).slice(-2));
+        format = format.replace(/mm/g, ('0' + date.getMinutes()).slice(-2));
+        format = format.replace(/ss/g, ('0' + date.getSeconds()).slice(-2));
+        return format;
+    };
 }
 
 class PlatformAlert extends Alert {
@@ -116,6 +149,11 @@ class ServiceHealthAlert extends Alert {
         super();
         this.alertBody = alertBody;
         this.monitoringService = monitoringService;
+    }
+
+    // サービス正常性は状態が無いので常に通知にしておく
+    public get monitorCondition(): string {
+        return "通知"
     }
 
     public get incidentType(): string {
@@ -156,7 +194,6 @@ class ServiceHealthAlert extends Alert {
             return result.join(",");
         };
         const message: string = `アラート名: ${this.subject}
-アラート状態: ${this.monitorCondition}
 アラート概要: ${this.defaultLanguageTitle}
 アラート重要度: ${this.severity}
 アラート発生日時: ${this.firedDateTime}
