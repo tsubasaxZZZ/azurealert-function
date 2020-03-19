@@ -23,6 +23,9 @@ jobs:
     - name: 'Run npm'
       shell: bash
       working-directory: .
+      env:
+        MailTo: ${{secrets.MailTo}}
+        TRANSLATOR_TEXT_SUBSCRIPTION_KEY: ${{secrets.TRANSLATOR_TEXT_SUBSCRIPTION_KEY}}
       run: |
         # If your function app project is not located in your repository's root
         # Please change your directory for npm in pushd
