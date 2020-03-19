@@ -110,7 +110,7 @@ export abstract class Alert {
     */
     private formatAndLocalizeDate(dateString: string, format: string = undefined): string {
         // JST にする
-        const date = new Date(Date.parse(dateString) + 9);
+        const date = new Date(new Date(Date.parse(dateString)).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }));
         if (!format) format = 'YYYY-MM-DD hh:mm:ss';
         format = format.replace(/YYYY/g, date.getFullYear().toString());
         format = format.replace(/MM/g, ('0' + (date.getMonth() + 1)).slice(-2));
