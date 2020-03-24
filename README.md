@@ -6,6 +6,7 @@ Azure Monitor のアラートのアクション グループに設定できる�
 
 - Azure Monitor のアクション グループから共通スキーマのアラートを受信します
 - SendGrid を使ってメールを送信します
+- Cognitive Service(Translator Text API) を使って翻訳します
 - 複数の宛先にテキストメールを送信します
 
 以下のようなアラートを受信できます。
@@ -36,6 +37,7 @@ Azure Monitor のアラートのアクション グループに設定できる�
 
 - MailTo : 送信先のメールアドレスです。カンマ区切りで複数指定できます。
 - SENDGRID_APIKEY : SendGrid の API キーを指定します。
+- TRANSLATOR_TEXT_SUBSCRIPTION_KEY: Translator API のキーを指定します。
 
 ### 2. Azure Functions にデプロイ
 
@@ -44,6 +46,14 @@ Azure Monitor のアラートのアクション グループに設定できる�
 ### 3. Azure Monitor のアクション グループの設定
 
 [こちら](https://docs.microsoft.com/ja-jp/azure/azure-monitor/platform/action-groups)を参照します。
+
+### 4. SendGrid のデプロイ
+
+メール送信に使用する SendGrid をデプロイします。
+
+### 5. Translator Text のデプロイ
+
+メールの翻訳に使用する Translator Text をデプロイします。
 
 ## 参考
 
@@ -63,8 +73,9 @@ func start した時に読み込まれます。
     "Values": {
         "AzureWebJobsStorage": "",
         "FUNCTIONS_WORKER_RUNTIME": "node",
-        "SENDGRID_APIKEY": "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",
-        "MailTo": "tsunomur@microsoft.com,tsubasa@nomupro.com"
+        "SENDGRID_APIKEY": "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",
+        "MailTo": "tsunomur@microsoft.com,tsubasa@nomupro.com",
+        "TRANSLATOR_TEXT_SUBSCRIPTION_KEY": "74b2c19e0e604ee584dc9999996d0ba6"
     }
 }
 ```
