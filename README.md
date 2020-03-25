@@ -31,29 +31,29 @@ Azure Monitor のアラートのアクション グループに設定できる�
 
 ## セットアップの手順
 
-### 1. Azure Functions の アプリケーション設定
+### 1. Azure Functions にデプロイ
 
-以下をキーとし、予め設定しておきます。
+[Visual Studio Code での展開](https://docs.microsoft.com/ja-jp/azure/azure-functions/functions-create-first-function-vs-code?pivots=programming-language-csharp#publish-the-project-to-azure) が簡単です。
+
+### 2. Azure Monitor のアクション グループの設定
+
+[こちら](https://docs.microsoft.com/ja-jp/azure/azure-monitor/platform/action-groups)を参照します。
+
+### 3. SendGrid のデプロイ
+
+メール送信に使用する SendGrid をデプロイします。
+
+### 4. Translator Text のデプロイ
+
+メールの翻訳に使用する Translator Text をデプロイします。
+
+### 5. Azure Functions の アプリケーション設定
+
+以下をキーとして設定します。
 
 - MailTo : 送信先のメールアドレスです。カンマ区切りで複数指定できます。
 - SENDGRID_APIKEY : SendGrid の API キーを指定します。
 - TRANSLATOR_TEXT_SUBSCRIPTION_KEY: Translator API のキーを指定します。
-
-### 2. Azure Functions にデプロイ
-
-[Visual Studio Code での展開](https://docs.microsoft.com/ja-jp/azure/azure-functions/functions-create-first-function-vs-code?pivots=programming-language-csharp#publish-the-project-to-azure) が簡単です。
-
-### 3. Azure Monitor のアクション グループの設定
-
-[こちら](https://docs.microsoft.com/ja-jp/azure/azure-monitor/platform/action-groups)を参照します。
-
-### 4. SendGrid のデプロイ
-
-メール送信に使用する SendGrid をデプロイします。
-
-### 5. Translator Text のデプロイ
-
-メールの翻訳に使用する Translator Text をデプロイします。
 
 ## 参考
 
@@ -63,9 +63,13 @@ Azure Monitor のアラートのアクション グループに設定できる�
 
 ### ローカル環境でのテスト
 
+ローカル環境では 2 つのテスト方法があります。
+
+1 つ目は単体テスト(npm test)、2 つ目は結合テスト(npm run start)です。結合テストは、HttpTriger をテストするため、Postman 等を使って HTTP リクエストを投げる必要があります。
+
 #### local.settings.json に以下を設定
 
-func start した時に読み込まれます。
+npm run start(func start) した時に読み込まれます。
 
 ```json
 {
@@ -82,7 +86,7 @@ func start した時に読み込まれます。
 
 #### 環境変数に MailTo を設定
 
-npm test した時に使います。
+npm test した時のテストに使います。
 
 #### テスト
 
