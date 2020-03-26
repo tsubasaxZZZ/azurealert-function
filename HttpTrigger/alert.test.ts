@@ -8,7 +8,7 @@ beforeAll(() => {
 
 test("Alertcreate-Platform-Resolved", async () => {
     const sampleBody = JSON.parse(fs.readFileSync("./HttpTrigger/testdata/test_platform.json").toString("utf8"))
-    const alert = Alert.createAlert(sampleBody, sampleBody.data.essentials.monitoringService);
+    const alert = Alert.createAlert(sampleBody);
     expect(alert.subject).toBe(sampleBody.data.essentials.alertRule);
     expect(alert.monitorCondition).toBe("解決");
     expect(alert.description).toBe(sampleBody.data.essentials.description);
@@ -35,7 +35,7 @@ test("Alertcreate-Platform-Resolved", async () => {
 
 test("Alertcreate-ServiceHealth-Fired", async () => {
     const sampleBody = JSON.parse(fs.readFileSync("./HttpTrigger/testdata/test_servicehealth.json").toString("utf8"))
-    const alert = Alert.createAlert(sampleBody, sampleBody.data.essentials.monitoringService);
+    const alert = Alert.createAlert(sampleBody);
     expect(alert.subject).toBe(sampleBody.data.essentials.alertRule);
     expect(alert.monitorCondition).toBe("通知");
     expect(alert.description).toBe(sampleBody.data.essentials.description);
@@ -62,7 +62,7 @@ test("Alertcreate-ServiceHealth-Fired", async () => {
 
 test("Alertcreate-ServiceHealth-Fired2", async () => {
     const sampleBody = JSON.parse(fs.readFileSync("./HttpTrigger/testdata/test_servicehealth2.json").toString("utf8"))
-    const alert = Alert.createAlert(sampleBody, sampleBody.data.essentials.monitoringService);
+    const alert = Alert.createAlert(sampleBody);
     expect(alert.subject).toBe(sampleBody.data.essentials.alertRule);
     expect(alert.monitorCondition).toBe("通知");
     expect(alert.description).toBe(sampleBody.data.essentials.description);

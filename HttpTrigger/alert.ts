@@ -1,29 +1,50 @@
 import { TranslateAlert, APIEndpoint } from "./translator"
+
+// 共通アラートスキーマに合わせた型定義
+// Ref: https://docs.microsoft.com/ja-jp/azure/azure-monitor/platform/alerts-common-schema-definitions
+type AlertSchema = {
+    data: {
+        essentials: {
+            alertId: string,
+            alertRule: string,
+            severity: string,
+            signalType: string,
+            monitorCondition: string,
+            monitoringService: string,
+            alertTargetIDs: string[],
+            originalAlertId: string,
+            firedDateTime: string,
+            resolvedDateTime: string,
+            description: string,
+            essentialsVersion: string,
+            alertContextVersion: string,
+        },
+        alertContext: any
+    }
+};
+
 export abstract class Alert {
-    _alertBody: any;
+    _alertBody: AlertSchema;
     _monitoringService: string;
 
     // factory alert object
-    public static createAlert(alertBody: string, monitoringService: string): Alert {
-        let obj: Alert | undefined = undefined;
-        switch (monitoringService) {
+    public static createAlert(alertBody: AlertSchema): Alert {
+        let obj: Alert;
+        switch (alertBody.data.essentials.monitoringService) {
             case "Platform":
-                obj = new PlatformAlert(alertBody, monitoringService);
+                obj = new PlatformAlert(alertBody);
                 break;
             case "ServiceHealth":
-                obj = new ServiceHealthAlert(alertBody, monitoringService);
+                obj = new ServiceHealthAlert(alertBody);
                 break;
             default: // ToDo: これ以外は共通の内容として Platform にしておく
-                obj = new PlatformAlert(alertBody, monitoringService);
+                obj = new PlatformAlert(alertBody);
                 break;
         }
         return obj;
 
     }
 
-    public set monitoringService(v: string) {
-        this._monitoringService = v;
-    }
     public set alertBody(v: any) {
         this._alertBody = v;
     }
@@ -42,7 +63,7 @@ export abstract class Alert {
     }
 
     public get monitoringService(): string {
-        return this._monitoringService || "-";
+        return this._alertBody.data.essentials.monitoringService || "-";
     }
 
     public get severity(): string {
@@ -121,10 +142,8 @@ export abstract class Alert {
 }
 
 class PlatformAlert extends Alert {
-    constructor(public alertBody: string, public monitoringService: string) {
+    constructor(public alertBody: AlertSchema) {
         super();
-        this.alertBody = alertBody;
-        this.monitoringService = monitoringService;
     }
 
     public async createMessage(): Promise<string> {
@@ -144,10 +163,8 @@ class PlatformAlert extends Alert {
 }
 
 class ServiceHealthAlert extends Alert {
-    constructor(public alertBody: string, public monitoringService: string) {
+    constructor(public alertBody: AlertSchema) {
         super();
-        this.alertBody = alertBody;
-        this.monitoringService = monitoringService;
     }
 
     // サービス正常性は状態が無いので常に通知にしておく

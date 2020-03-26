@@ -22,7 +22,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     context.log("Send to:" + JSON.stringify(toObj));
 
     // アラートの種類によってメッセージを構築する
-    const alert = Alert.createAlert(req.body, req.body.data.essentials.monitoringService);
+    const alert = Alert.createAlert(req.body);
 
     const message = {
         "personalizations": [{ "to": toObj }],
