@@ -51,9 +51,10 @@ Azure Monitor のアラートのアクション グループに設定できる�
 
 以下をキーとして設定します。
 
-- MailTo : 送信先のメールアドレスです。カンマ区切りで複数指定できます。
-- SENDGRID_APIKEY : SendGrid の API キーを指定します。
-- TRANSLATOR_TEXT_SUBSCRIPTION_KEY: Translator API のキーを指定します。
+- MailTo - 送信先のメールアドレスです。カンマ区切りで複数指定できます。
+- SENDGRID_APIKEY - SendGrid の API キーを指定します。
+- TRANSLATOR_TEXT_SUBSCRIPTION_KEY - Translator API のキーを指定します。
+- WEBSITE_RUN_FROM_PACKAGE: 1 - パッケージデプロイを指定します。
 
 ## 参考
 
