@@ -2,7 +2,7 @@ import { TranslateAlert, APIEndpoint } from "./translator"
 
 // 共通アラートスキーマに合わせた型定義
 // Ref: https://docs.microsoft.com/ja-jp/azure/azure-monitor/platform/alerts-common-schema-definitions
-type AlertSchema = {
+type CommonAlert = {
     data: {
         essentials: {
             alertId: string,
@@ -23,13 +23,13 @@ type AlertSchema = {
     }
 };
 
-export abstract class Alert {
-    _alertBody: AlertSchema;
+export abstract class BaseAlert {
+    _alertBody: CommonAlert;
     _monitoringService: string;
 
     // factory alert object
-    public static createAlert(alertBody: AlertSchema): Alert {
-        let obj: Alert;
+    public static createAlert(alertBody: CommonAlert): BaseAlert {
+        let obj: BaseAlert;
         switch (alertBody.data.essentials.monitoringService) {
             case "Platform":
                 obj = new PlatformAlert(alertBody);
@@ -141,8 +141,8 @@ export abstract class Alert {
     };
 }
 
-class PlatformAlert extends Alert {
-    constructor(public alertBody: AlertSchema) {
+class PlatformAlert extends BaseAlert {
+    constructor(public alertBody: CommonAlert) {
         super();
     }
 
@@ -162,8 +162,8 @@ class PlatformAlert extends Alert {
     }
 }
 
-class ServiceHealthAlert extends Alert {
-    constructor(public alertBody: AlertSchema) {
+class ServiceHealthAlert extends BaseAlert {
+    constructor(public alertBody: CommonAlert) {
         super();
     }
 

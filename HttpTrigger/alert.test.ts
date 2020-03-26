@@ -1,6 +1,6 @@
 import * as fs from "fs"
 import * as dotenv from "dotenv"
-import { Alert } from "./alert"
+import { BaseAlert } from "./alert"
 
 beforeAll(() => {
     dotenv.config();
@@ -8,7 +8,7 @@ beforeAll(() => {
 
 test("Alertcreate-Platform-Resolved", async () => {
     const sampleBody = JSON.parse(fs.readFileSync("./HttpTrigger/testdata/test_platform.json").toString("utf8"))
-    const alert = Alert.createAlert(sampleBody);
+    const alert = BaseAlert.createAlert(sampleBody);
     expect(alert.subject).toBe(sampleBody.data.essentials.alertRule);
     expect(alert.monitorCondition).toBe("解決");
     expect(alert.description).toBe(sampleBody.data.essentials.description);
@@ -35,7 +35,7 @@ test("Alertcreate-Platform-Resolved", async () => {
 
 test("Alertcreate-ServiceHealth-Fired", async () => {
     const sampleBody = JSON.parse(fs.readFileSync("./HttpTrigger/testdata/test_servicehealth.json").toString("utf8"))
-    const alert = Alert.createAlert(sampleBody);
+    const alert = BaseAlert.createAlert(sampleBody);
     expect(alert.subject).toBe(sampleBody.data.essentials.alertRule);
     expect(alert.monitorCondition).toBe("通知");
     expect(alert.description).toBe(sampleBody.data.essentials.description);
@@ -62,7 +62,7 @@ test("Alertcreate-ServiceHealth-Fired", async () => {
 
 test("Alertcreate-ServiceHealth-Fired2", async () => {
     const sampleBody = JSON.parse(fs.readFileSync("./HttpTrigger/testdata/test_servicehealth2.json").toString("utf8"))
-    const alert = Alert.createAlert(sampleBody);
+    const alert = BaseAlert.createAlert(sampleBody);
     expect(alert.subject).toBe(sampleBody.data.essentials.alertRule);
     expect(alert.monitorCondition).toBe("通知");
     expect(alert.description).toBe(sampleBody.data.essentials.description);
