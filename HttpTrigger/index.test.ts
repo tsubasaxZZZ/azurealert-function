@@ -1,6 +1,7 @@
 import httpTrigger from "."
 import { Context } from "@azure/functions"
 import * as fs from "fs"
+import * as dotenv from "dotenv"
 
 function createLogFunc() {
     const log = function (...args: any) {
@@ -32,6 +33,10 @@ const defaultMailSetting = {
         value: "HOGEHOGE"
     }]
 };
+
+beforeAll(() => {
+    dotenv.config();
+});
 
 // Platform アラートのテスト
 test("SendMail-Platform-Resolved", async () => {

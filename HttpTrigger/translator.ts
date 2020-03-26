@@ -1,13 +1,21 @@
 import * as uuidv4 from 'uuid/v4';
 import axios, { AxiosInstance } from 'axios';
 import { env } from "process"
+import * as dotenv from "dotenv"
+dotenv.config();
 
-const TranslateAPIURL = `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=en&to=ja`;
+export const APIEndpoint = new Map<string, string>([
+    ["EN2JA", `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=en&to=ja`],
+]);
+
 const SubscriptionKey = env.TRANSLATOR_TEXT_SUBSCRIPTION_KEY;
 
 export class TranslateAlert {
     private translateAPI: AxiosInstance;
-    constructor() {
+    private translateAPIURL: string;
+
+    constructor({ translateAPIURL }: { translateAPIURL: string; }) {
+        this.translateAPIURL = translateAPIURL;
         this.translateAPI = axios.create({
             headers: {
                 'Ocp-Apim-Subscription-Key': SubscriptionKey,
@@ -17,17 +25,18 @@ export class TranslateAlert {
         });
     }
 
-    public async translateEn2Ja(englishText: string): Promise<string | Error> {
+    public async doTranslate(targetText: string): Promise<string> {
         // html タグ/改行を削除
-        englishText = englishText.replace(/(<([^>]+)>)/ig, " ").replace(/\r?\n/g, " ").replace("  ", " ").trim();
+        targetText = targetText.replace(/(<([^>]+)>)/ig, " ").replace(/\r?\n/g, " ").replace("  ", " ").trim();
 
         let translatedText: any;
         try {
             translatedText = await this.translateAPI.post(
-                TranslateAPIURL, [{ "text": englishText }]
+                this.translateAPIURL, [{ "text": targetText }]
             )
         } catch (error) {
-            throw new Error(error);
+            console.log(error);
+            return targetText;
         }
         if (translatedText) {
             return translatedText.data[0].translations[0].text;

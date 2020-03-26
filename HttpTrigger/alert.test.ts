@@ -1,5 +1,11 @@
 import * as fs from "fs"
+import * as dotenv from "dotenv"
 import { Alert } from "./alert"
+
+beforeAll(() => {
+    dotenv.config();
+});
+
 test("Alertcreate-Platform-Resolved", async () => {
     const sampleBody = JSON.parse(fs.readFileSync("./HttpTrigger/testdata/test_platform.json").toString("utf8"))
     const alert = Alert.createAlert(sampleBody, sampleBody.data.essentials.monitoringService);

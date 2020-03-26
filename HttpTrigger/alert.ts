@@ -1,4 +1,4 @@
-import { TranslateAlert } from "./translator"
+import { TranslateAlert, APIEndpoint } from "./translator"
 export abstract class Alert {
     _alertBody: any;
     _monitoringService: string;
@@ -204,7 +204,7 @@ class ServiceHealthAlert extends Alert {
 トラッキング ID: ${this.trackingID}
 影響サービス[リージョン]: ${formatImpactedService(this.impactedServices)}
 
-${await new TranslateAlert().translateEn2Ja(this.defaultLanguageContent)}
+${await new TranslateAlert({ translateAPIURL: APIEndpoint.get("EN2JA") }).doTranslate(this.defaultLanguageContent)}
 `;
         return message;
     }

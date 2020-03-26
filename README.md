@@ -86,7 +86,7 @@ npm run start(func start) した時に読み込まれます。
 
 #### 環境変数に MailTo を設定
 
-npm test した時のテストに使います。
+npm test した時のテストに使います。.env ファイルを作成して、local.settings.json と同じキー・値を設定することもできます。
 
 #### テスト
 
