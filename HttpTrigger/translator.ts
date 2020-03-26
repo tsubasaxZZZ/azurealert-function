@@ -29,17 +29,19 @@ export class TranslateAlert {
         // html タグ/改行を削除
         targetText = targetText.replace(/(<([^>]+)>)/ig, " ").replace(/\r?\n/g, " ").replace("  ", " ").trim();
 
-        let translatedText: any;
+        let translatedText: any = targetText;
         try {
             translatedText = await this.translateAPI.post(
                 this.translateAPIURL, [{ "text": targetText }]
-            )
+            );
+            if (translatedText) {
+                translatedText = translatedText.data[0].translations[0].text;
+            }
         } catch (error) {
             console.log(error);
-            return targetText;
+            translatedText = targetText;
         }
-        if (translatedText) {
-            return translatedText.data[0].translations[0].text;
-        }
+
+        return translatedText;
     }
 }
