@@ -38,6 +38,7 @@ export class TranslateAlert {
                 translatedText = translatedText.data[0].translations[0].text;
             }
         } catch (error) {
+            // API でエラーが出た場合は、オリジナルの内容とする
             console.log(error);
             translatedText = targetText;
         }
