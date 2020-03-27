@@ -78,16 +78,19 @@ npm run start(func start) した時に読み込まれます。
     "Values": {
         "AzureWebJobsStorage": "",
         "FUNCTIONS_WORKER_RUNTIME": "node",
-        "SENDGRID_APIKEY": "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",
-        "MailTo": "tsunomur@microsoft.com,tsubasa@nomupro.com",
-        "TRANSLATOR_TEXT_SUBSCRIPTION_KEY": "74b2c19e0e604ee584dc9999996d0ba6"
+        "SENDGRID_APIKEY": "AA.ABCDEFGHiJkiS12lEfx1Yw.RpbfQild9ptw6KMhnCqXm4zMg5mWSERXLavSnwoLApg" // SendGrid の出力バインドで使われます
     }
 }
 ```
 
-#### 環境変数に MailTo を設定
+#### 環境変数を設定
 
-npm test した時のテストに使います。.env ファイルを作成して、local.settings.json と同じキー・値を設定することもできます。
+アプリケーションで読み込まれる環境変数を設定します。
+
+```json
+MailTo="test@example.com,hoge@example.com"
+TRANSLATOR_TEXT_SUBSCRIPTION_KEY="999999999999999994dc99b94e6d0ba6"
+```
 
 #### テスト
 
