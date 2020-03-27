@@ -123,3 +123,19 @@ test("SendMail-ServiceHealth-Resolved", async () => {
     expect(ctx.bindings.sendgrid.content[0].value).toBe(messageValue);
 
 });
+
+test("Alert-Format-Error", async () => {
+    const sampleBody = JSON.parse('{"data":{"essentials":{}}}');
+    const req = {
+        body: sampleBody,
+        query: {}
+    };
+
+    await httpTrigger(ctx, req);
+
+    console.log(ctx.bindings.sendgrid.content);
+
+    const messageValue: string = `アラートの解析に失敗しました。Azure ポータルから Application Insights にアクセスし、エラーを確認してください。`;
+    expect(ctx.bindings.sendgrid.subject).toBe(`アラートの解析に失敗しました`);
+    expect(ctx.bindings.sendgrid.content[0].value).toBe(messageValue);
+});

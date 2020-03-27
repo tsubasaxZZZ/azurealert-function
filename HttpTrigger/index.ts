@@ -22,15 +22,26 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     context.log("Send to:" + JSON.stringify(toObj));
 
     // アラートの種類によってメッセージを構築する
-    const alert = BaseAlert.createAlert(req.body);
+    let alert: BaseAlert;
+    let alertContent: string;
+    let alertSubject: string;
+    try {
+        alert = BaseAlert.createAlert(req.body);
+        alertSubject = `${alert.monitorCondition}: ${alert.subject}`
+        alertContent = await alert.createMessage();
+    } catch (error) {
+        context.log(error);
+        alertSubject = "アラートの解析に失敗しました";
+        alertContent = "アラートの解析に失敗しました。Azure ポータルから Application Insights にアクセスし、エラーを確認してください。";
+    }
 
     const message = {
         "personalizations": [{ "to": toObj }],
         from: { email: "azure-noreply@microsoft.com" },
-        subject: `${alert.monitorCondition}: ${alert.subject}`,
+        subject: alertSubject,
         content: [{
             type: 'text/plain',
-            value: await alert.createMessage()
+            value: alertContent
         }]
     };
     context.bindings.sendgrid = message;
