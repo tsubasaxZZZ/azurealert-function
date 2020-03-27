@@ -148,15 +148,15 @@ class PlatformAlert extends BaseAlert {
 
     public async createMessage(): Promise<string> {
         const message: string = `アラート名: ${this.subject}
-アラート状態: ${this.monitorCondition}
-アラート説明: ${this.description}
-アラート重要度: ${this.severity}
-アラート発生日時: ${this.firedDateTime}
-アラート解決日時: ${this.resolvedDateTime}
-アラート種別: ${this.monitoringService}
+状態: ${this.monitorCondition}
+説明: ${this.description}
+重要度: ${this.severity}
+発生日時: ${this.firedDateTime}
+解決日時: ${this.resolvedDateTime}
+種別: ${this.monitoringService}
 リソース グループ: ${this.resourceGroups.join(",")}
 リソース タイプ: ${this.resourceTypes.join(",")}
-対象リソース: ${this.resources.join(",")}
+対象: ${this.resources.join(",")}
 `;
         return message;
     }
@@ -211,13 +211,13 @@ class ServiceHealthAlert extends BaseAlert {
         };
 
         const message = `アラート名: ${this.subject}
-アラート概要: ${this.defaultLanguageTitle}
-アラート重要度: ${this.severity}
-アラート発生日時: ${this.firedDateTime}
-アラート解決日時: ${this.resolvedDateTime}
-アラート種別: ${this.monitoringService}
-対象サブスクリプション: ${this.alertTargetIDs.join(",")}
-アラートタイプ: ${this.incidentType}
+概要: ${this.defaultLanguageTitle}
+重要度: ${this.severity}
+発生日時: ${this.firedDateTime}
+解決日時: ${this.resolvedDateTime}
+種別: ${this.monitoringService}
+対象: ${this.alertTargetIDs.join(",")}
+タイプ: ${this.incidentType}
 トラッキング ID: ${this.trackingID}
 影響サービス[リージョン]: ${formatImpactedService(this.impactedServices)}
 

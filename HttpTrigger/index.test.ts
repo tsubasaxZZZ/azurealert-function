@@ -51,15 +51,15 @@ test("SendMail-Platform-Resolved", async () => {
     console.log(ctx.bindings.sendgrid.content);
 
     const messageValue: string = `アラート名: WCUS-R2-Gen2
-アラート状態: 解決
-アラート説明: アラートの説明です
-アラート重要度: Sev3
-アラート発生日時: 2019-03-22 22:58:24
-アラート解決日時: 2019-03-22 23:03:16
-アラート種別: Platform
+状態: 解決
+説明: アラートの説明です
+重要度: Sev3
+発生日時: 2019-03-22 22:58:24
+解決日時: 2019-03-22 23:03:16
+種別: Platform
 リソース グループ: pipelinealertrg
 リソース タイプ: microsoft.compute/virtualmachines
-対象リソース: wcus-r2-gen2
+対象: wcus-r2-gen2
 `;
     expect(ctx.bindings.sendgrid.subject).toBe(`解決: ${defaultMailSetting.subject}`);
     expect(ctx.bindings.sendgrid.content[0].value).toBe(messageValue);
@@ -79,15 +79,15 @@ test("SendMail-LogAnalytics-Resolved", async () => {
     console.log(ctx.bindings.sendgrid.content);
 
     const messageValue: string = `アラート名: WCUS-R2-Gen2
-アラート状態: 解決
-アラート説明: アラートの説明です
-アラート重要度: Sev3
-アラート発生日時: 2019-03-22 22:58:24
-アラート解決日時: 2019-03-22 23:03:16
-アラート種別: Log Analytics
+状態: 解決
+説明: アラートの説明です
+重要度: Sev3
+発生日時: 2019-03-22 22:58:24
+解決日時: 2019-03-22 23:03:16
+種別: Log Analytics
 リソース グループ: pipelinealertrg
 リソース タイプ: microsoft.compute/virtualmachines
-対象リソース: wcus-r2-gen2
+対象: wcus-r2-gen2
 `;
     expect(ctx.bindings.sendgrid.subject).toBe(`解決: ${defaultMailSetting.subject}`);
     expect(ctx.bindings.sendgrid.content[0].value).toBe(messageValue);
@@ -107,13 +107,13 @@ test("SendMail-ServiceHealth-Resolved", async () => {
     console.log(ctx.bindings.sendgrid.content);
 
     const messageValue: string = `アラート名: 正常性アラート
-アラート概要: Log Analytics - Applying Mitigation
-アラート重要度: Sev4
-アラート発生日時: 2020-03-18 21:56:15
-アラート解決日時: -
-アラート種別: ServiceHealth
-対象サブスクリプション: /subscriptions/33325c7f-089d-493b-9ad9-1400a8da5394
-アラートタイプ: Incident
+概要: Log Analytics - Applying Mitigation
+重要度: Sev4
+発生日時: 2020-03-18 21:56:15
+解決日時: -
+種別: ServiceHealth
+対象: /subscriptions/33325c7f-089d-493b-9ad9-1400a8da5394
+タイプ: Incident
 トラッキング ID: 8V_4-FC0
 影響サービス[リージョン]: Log Analytics[Australia Central/Australia East/Australia Southeast/Canada Central/Central India/East Asia/East US/East US 2/France Central/Japan East/Korea Central/North Central US/North Europe/South Central US/UK South/West Central US/West US/West US 2]
 
