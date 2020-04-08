@@ -6,6 +6,8 @@ on:
   push:
     branches:
       - master
+  schedule:
+    - cron: '0 0 * * 5'
 
 name: Build and deploy Node Function app
 
