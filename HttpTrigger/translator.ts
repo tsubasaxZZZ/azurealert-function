@@ -1,4 +1,4 @@
-import * as uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 import axios, { AxiosInstance } from 'axios';
 import { env } from "process"
 import * as dotenv from "dotenv"
