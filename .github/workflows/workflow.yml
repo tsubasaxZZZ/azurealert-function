@@ -20,7 +20,7 @@ jobs:
 
     - uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS_f2986254-9d69-4d }}
+        creds: ${{ secrets.AZURE_CREDENTIAL }}
 
     - name: 'Run npm'
       shell: bash
