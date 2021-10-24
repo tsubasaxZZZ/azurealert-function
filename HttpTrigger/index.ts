@@ -1,5 +1,5 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions"
-import { BaseAlert } from "./alert";
+import  * as al from "./alert";
 import { env } from "process"
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
@@ -22,11 +22,11 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     context.log("Send to:" + JSON.stringify(toObj));
 
     // アラートの種類によってメッセージを構築する
-    let alert: BaseAlert;
+    let alert: al.BaseAlert;
     let alertContent: string;
     let alertSubject: string;
     try {
-        alert = BaseAlert.createAlert(req.body);
+        alert = await al.factoryAlert(req.body);
         alertSubject = `${alert.monitorCondition}: ${alert.subject}`
         alertContent = await alert.createMessage();
     } catch (error) {

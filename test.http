@@ -1,0 +1,20 @@
+# func start した時のテスト用
+# VS Code の REST Client 拡張で使う
+
+### アラート1
+POST http://localhost:7071/api/HttpTrigger HTTP/1.1
+Content-Type: application/json
+
+< HttpTrigger/testdata/test_loganalytics.json
+
+### アラート2
+POST http://localhost:7071/api/HttpTrigger HTTP/1.1
+Content-Type: application/json
+
+< HttpTrigger/testdata/test_servicehealth.json
+
+### アラート3
+POST http://localhost:7071/api/HttpTrigger HTTP/1.1
+Content-Type: application/json
+
+< HttpTrigger/testdata/test_servicehealth2.json

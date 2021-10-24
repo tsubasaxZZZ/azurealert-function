@@ -2,7 +2,7 @@ import { TranslateAlert, APIEndpoint } from "./translator"
 
 // 共通アラートスキーマに合わせた型定義
 // Ref: https://docs.microsoft.com/ja-jp/azure/azure-monitor/platform/alerts-common-schema-definitions
-type CommonAlert = {
+export type CommonAlert = {
     data: {
         essentials: {
             alertId: string,
@@ -23,35 +23,26 @@ type CommonAlert = {
     }
 };
 
+export async function factoryAlert(alertBody: CommonAlert): Promise<BaseAlert> {
+    let obj: BaseAlert;
+    switch (alertBody.data.essentials.monitoringService) {
+        case "Platform":
+            obj = new PlatformAlert(alertBody);
+            break;
+        case "ServiceHealth":
+            obj = new ServiceHealthAlert(alertBody);
+            break;
+        default: // ToDo: これ以外は共通の内容として Platform にしておく
+            obj = new PlatformAlert(alertBody);
+            break;
+    }
+    return obj;
+
+}
 export abstract class BaseAlert {
-    _alertBody: CommonAlert;
-    _monitoringService: string;
-
-    // factory alert object
-    public static createAlert(alertBody: CommonAlert): BaseAlert {
-        let obj: BaseAlert;
-        switch (alertBody.data.essentials.monitoringService) {
-            case "Platform":
-                obj = new PlatformAlert(alertBody);
-                break;
-            case "ServiceHealth":
-                obj = new ServiceHealthAlert(alertBody);
-                break;
-            default: // ToDo: これ以外は共通の内容として Platform にしておく
-                obj = new PlatformAlert(alertBody);
-                break;
-        }
-        return obj;
-
-    }
-
-    public set alertBody(v: any) {
-        this._alertBody = v;
-    }
-
-
+    abstract alertBody: CommonAlert;
     public get monitorCondition(): string {
-        const c = this._alertBody.data.essentials.monitorCondition;
+        const c = this.alertBody.data.essentials.monitorCondition;
         switch (c) {
             case "Fired":
                 return "障害発生"
@@ -63,47 +54,47 @@ export abstract class BaseAlert {
     }
 
     public get monitoringService(): string {
-        return this._alertBody.data.essentials.monitoringService || "-";
+        return this.alertBody.data.essentials.monitoringService || "-";
     }
 
     public get severity(): string {
-        return this._alertBody.data.essentials.severity || "-";
+        return this.alertBody.data.essentials.severity || "-";
     }
     public get subject(): string {
-        return this._alertBody.data.essentials.alertRule || "-";
+        return this.alertBody.data.essentials.alertRule || "-";
     }
 
     public get alertTargetIDs(): string[] {
-        return this._alertBody.data.essentials.alertTargetIDs || ["-"];
+        return this.alertBody.data.essentials.alertTargetIDs || ["-"];
     }
 
     public get resourceGroups(): string[] {
         const resourcegroups = [];
-        for (const id of this._alertBody.data.essentials.alertTargetIDs) {
+        for (const id of this.alertBody.data.essentials.alertTargetIDs) {
             resourcegroups.push(String(id).split("/")[4]);
         }
         return resourcegroups || ["-"];
     }
     public get resources(): string[] {
         const resources = [];
-        for (const id of this._alertBody.data.essentials.alertTargetIDs) {
+        for (const id of this.alertBody.data.essentials.alertTargetIDs) {
             resources.push(String(id).split("/")[8]);
         }
         return resources || ["-"];
     }
     public get resourceTypes(): string[] {
         const resourceTypes = [];
-        for (const id of this._alertBody.data.essentials.alertTargetIDs) {
+        for (const id of this.alertBody.data.essentials.alertTargetIDs) {
             resourceTypes.push(String(id).split("/")[6] + "/" + String(id).split("/")[7]);
         }
         return resourceTypes || ["-"];
     }
     public get description(): string {
-        return this._alertBody.data.essentials.description || "-";
+        return this.alertBody.data.essentials.description || "-";
     }
     public get firedDateTime(): string {
         let d = "-";
-        let fd = this._alertBody.data.essentials.firedDateTime;
+        let fd = this.alertBody.data.essentials.firedDateTime;
         if (fd) {
             if (!(/Z$/).test(fd)) {
                 fd += "Z";
@@ -114,12 +105,12 @@ export abstract class BaseAlert {
     }
     public get resolvedDateTime(): string {
         let d = "-";
-        if (this._alertBody.data.essentials.resolvedDateTime) {
-            d = this.formatAndLocalizeDate(this._alertBody.data.essentials.resolvedDateTime);
+        if (this.alertBody.data.essentials.resolvedDateTime) {
+            d = this.formatAndLocalizeDate(this.alertBody.data.essentials.resolvedDateTime);
         }
         return d;
     }
-    public async abstract createMessage(): Promise<string>;
+    public abstract createMessage(): Promise<string>;
 
     /**
      * 日付をフォーマットする
@@ -141,7 +132,7 @@ export abstract class BaseAlert {
     };
 }
 
-class PlatformAlert extends BaseAlert {
+export class PlatformAlert extends BaseAlert {
     constructor(public alertBody: CommonAlert) {
         super();
     }
@@ -162,7 +153,7 @@ class PlatformAlert extends BaseAlert {
     }
 }
 
-class ServiceHealthAlert extends BaseAlert {
+export class ServiceHealthAlert extends BaseAlert {
     constructor(public alertBody: CommonAlert) {
         super();
     }
@@ -173,24 +164,24 @@ class ServiceHealthAlert extends BaseAlert {
     }
 
     public get incidentType(): string {
-        return this._alertBody.data.alertContext.properties.incidentType || "-";
+        return this.alertBody.data.alertContext.properties.incidentType || "-";
     }
 
     public get trackingID(): string {
-        return this._alertBody.data.alertContext.properties.trackingId || "-";
+        return this.alertBody.data.alertContext.properties.trackingId || "-";
     }
 
     public get defaultLanguageTitle(): string {
-        return this._alertBody.data.alertContext.properties.defaultLanguageTitle || "-";
+        return this.alertBody.data.alertContext.properties.defaultLanguageTitle || "-";
     }
 
     public get impactedServices(): any {
-        return JSON.parse(this._alertBody.data.alertContext.properties.impactedServices);
+        return JSON.parse(this.alertBody.data.alertContext.properties.impactedServices);
     }
 
 
     public get defaultLanguageContent(): string {
-        return this._alertBody.data.alertContext.properties.defaultLanguageContent || "-";
+        return this.alertBody.data.alertContext.properties.defaultLanguageContent || "-";
     }
 
     public async createMessage(): Promise<string> {
