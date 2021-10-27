@@ -37,7 +37,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
     const message = {
         "personalizations": [{ "to": toObj }],
-        from: { email: "azure-noreply@microsoft.com" },
+        from: { email: env.MAIL_FROM || "azure-noreply@microsoft.com" },
         subject: alertSubject,
         content: [{
             type: 'text/plain',
